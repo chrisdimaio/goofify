@@ -53,6 +53,37 @@ def dumify(string):
     return string
 
 
+"""
+    Experimental method to detect dumified strings.
+"""
+
+
+def isdumified(string):
+    print(string)
+    words = list(string)
+
+    if len(words) < 3:
+        return False
+    if (
+        (words[0].isalpha() & words[0].isupper()) &
+        (words[1].isalpha() & words[1].islower()) &
+        (words[-1].isalpha() & words[-1].islower()) &
+        (words[-2].isalpha() & words[-2].isupper())
+    ):
+        return False
+
+    uppers = len(
+        [l for l in filter(lambda n: n.isupper() & n.isalpha(), words[2:-2])])
+
+    # Calculate the ratio of uppercase letters to lowercase.
+    ratio = uppers/len([l for l in filter(lambda n: n.isalpha(), words)])
+
+    # Got these thresholds by calculating a million ratios of dumified strings.
+    if ratio < .20 or ratio > .82:
+        return False
+    return True
+
+
 def getdata(event):
     body = event['body']
     raw_data = urllib.parse.unquote_plus(str(b64decode(body).decode('utf-8')))
