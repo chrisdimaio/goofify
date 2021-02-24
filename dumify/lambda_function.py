@@ -31,24 +31,27 @@ def lambda_handler(event, context):
 
 
 def dumify(string):
-    words = list(string)
+    if len(string) >= 3:
+        words = list(string)
 
-    # Always make the first letter lowercase
-    words[0] = words[0].lower()
+        # Always make the first letter lowercase
+        words[0] = words[0].lower()
 
-    # the second uppercase
-    words[1] = words[1].upper()
+        # the second uppercase
+        words[1] = words[1].upper()
 
-    # the last uppercase
-    words[-1] = words[-1].upper()
+        # the last uppercase
+        words[-1] = words[-1].upper()
 
-    # and the second to last lowercase
-    words[-2] = words[-2].lower()
+        # and the second to last lowercase
+        words[-2] = words[-2].lower()
 
-    # then randomly flip the ones in between.
-    words[2:-2] = [l.upper() if randint(0, 1) == 0 else l for l in words[2:-2]]
+        # then randomly flip the ones in between.
+        words[2:-2] = [l.upper() if randint(0, 1) ==
+                       0 else l for l in words[2:-2]]
 
-    return ''.join(words)
+        return ''.join(words)
+    return string
 
 
 def getdata(event):
