@@ -47,8 +47,7 @@ def dumify(string):
         words[-2] = words[-2].lower()
 
         # then randomly flip the ones in between.
-        words[2:-2] = [l.upper() if randint(0, 1) ==
-                       0 else l for l in words[2:-2]]
+        words[2:-2] = [l.upper() if randint(0, 1) else l for l in words[2:-2]]
 
         return ''.join(words)
     return string
