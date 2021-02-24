@@ -7,15 +7,15 @@ import urllib3
 from base64 import b64decode
 from random import randint
 
+
 def lambda_handler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    
+
     logger.info(json.dumps(event))
-    
-    
+
     r = postmessage(getdata(event))
-    
+
     logger.info(json.dumps(
         {
             'postmessage_response': {
@@ -29,6 +29,7 @@ def lambda_handler(event, context):
         'body': ''
     }
 
+
 def dumify(dumstring):
     dumified = ""
     for c in dumstring:
@@ -37,16 +38,17 @@ def dumify(dumstring):
         else:
             dumified += c.lower()
     return dumified
-    
+
+
 def postmessage(data):
     token = os.environ['bearer_token']
-    
+
     http = urllib3.PoolManager()
     r = http.request(
-        'POST', 
-        'https://slack.com/api/chat.postMessage', 
+        'POST',
+        'https://slack.com/api/chat.postMessage',
         headers={
-            'Content-Type':'application/json',
+            'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}'
         },
         body=json.dumps({
@@ -57,14 +59,14 @@ def postmessage(data):
         })
     )
     return r
-    
+
+
 def getdata(event):
     body = event['body']
     raw_data = urllib.parse.unquote_plus(str(b64decode(body).decode('utf-8')))
     data = {}
     pieces = raw_data.split("&")
     for piece in pieces:
-        k,v = piece.split("=")
+        k, v = piece.split("=")
         data[k] = v
     return data
-    
