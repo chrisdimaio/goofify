@@ -8,7 +8,8 @@ from dumify import lambda_function
 
 
 def main():
-    print(f'"{lambda_function.dumify("I want to make rockets and go to Mars")}" -Elon Musk')
+    print(lambda_function.dumify(
+        'My name is Elon Musk and I want to build rockets so I can die on Mars.'))
 
 
 if __name__ == '__main__':
