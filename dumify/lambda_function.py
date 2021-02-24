@@ -40,6 +40,17 @@ def dumify(dumstring):
     return dumified
 
 
+def getdata(event):
+    body = event['body']
+    raw_data = urllib.parse.unquote_plus(str(b64decode(body).decode('utf-8')))
+    data = {}
+    pieces = raw_data.split("&")
+    for piece in pieces:
+        k, v = piece.split("=")
+        data[k] = v
+    return data
+
+
 def postmessage(data):
     token = os.environ['bearer_token']
 
@@ -59,14 +70,3 @@ def postmessage(data):
         })
     )
     return r
-
-
-def getdata(event):
-    body = event['body']
-    raw_data = urllib.parse.unquote_plus(str(b64decode(body).decode('utf-8')))
-    data = {}
-    pieces = raw_data.split("&")
-    for piece in pieces:
-        k, v = piece.split("=")
-        data[k] = v
-    return data
